@@ -1,1 +1,55 @@
-/7
+#alexis martin hernandez silva 18420453
+import json
+
+def municipio(mun):
+    ind=1
+    cpost = {}
+    archivo = open('CPdescarga.txt', 'r')
+    cadena = archivo.read()
+    cadena = cadena.replace('||','| |')
+    cadena = cadena.replace('.',' ')
+    listcods = cadena.split("\n")
+    archivo.close()
+
+    for muni in listcods:
+        cod = muni.split("|")
+        cp = {}
+        if len(cod)>1 :
+            if cod[3] == mun:
+                cp["codigo_post"] = cod[0]
+                cp["tipo_asent"] = cod[2]
+                cp["zona"] = cod[13]
+                cpost[f"{ind}"] = cp
+                ind=ind+1
+    lista= json.dumps(cpost)
+    return (lista)
+
+print(municipio('Jiquilpan'))
+
+
+def estad(estado):
+    cpost = {}
+    archivo = open('CPdescarga.txt', 'r')
+    text = archivo.read()
+    text = text.replace('||','| |')
+    text = text.replace('.',' ')
+    listcods = text.split("\n")
+    archivo.close()
+
+    lista = []
+
+    for muni in listcods:
+        codigos = muni.split("|")
+        # print(codigos)
+        cp = {}
+        if len(codigos)>1 :
+            if codigos[4] == estado:
+                cp["codigo_post"] = codigos[0]
+                cp["munic"] = codigos[3]
+                lista.append(cp)
+    cpost[estado] = lista
+    lista = json.dumps(cpost)
+    print(lista)
+
+
+estad('Michoacán de Ocampo')
